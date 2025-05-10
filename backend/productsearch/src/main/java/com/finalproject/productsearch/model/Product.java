@@ -1,20 +1,28 @@
 package com.finalproject.productsearch.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.sql.Timestamp;
 
 @Entity
+@Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
+
     private String description;
+
     private String category;
+
+    @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
-    // Optional: Text embedding/vector stored as JSON or separate table
+    @Column(name = "created_at")
+    private Timestamp createdAt;
+
+    // Getters and setters
 }
