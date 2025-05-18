@@ -1,4 +1,30 @@
 # Ignore everything in this directory
-*
-# Except this file
-!.gitignore
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment (adjust name if it's not "venv")
+venv/
+env/
+.venv/
+
+# Environment files
+.env
+*.env
+
+# OS-specific
+.DS_Store  # macOS
+Thumbs.db  # Windows
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Log and output files
+*.log
+*.out
+
+# VSCode or PyCharm settings (optional)
+.vscode/
+.idea/
