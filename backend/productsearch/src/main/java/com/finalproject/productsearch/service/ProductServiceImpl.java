@@ -20,7 +20,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     // Change this to a real directory or storage solution
-    private static final String IMAGE_UPLOAD_DIR = "uploads/";
+    private static final String IMAGE_UPLOAD_DIR = "D:\\Final Project\\AI-Search-Recommendation\\backend\\productsearch\\uploads";
 
     @Override
     public Product saveProductWithImage(String name, String description, String category, MultipartFile imageFile) throws IOException {
@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
 
         // Save the file
         String filePath = IMAGE_UPLOAD_DIR + uniqueFilename;
-        File dest = new File(filePath);
+        File dest = new File(uploadDir, uniqueFilename);
         imageFile.transferTo(dest);
 
         // Construct image URL (assuming served via static mapping)
