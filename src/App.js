@@ -9,6 +9,8 @@ import { GlobalStyle } from "./GlobalStyle";
 import { ThemeProvider } from "styled-components";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import ProfilePage from "./components/ProfilePage";
+import AdminProfile from "./components/AdminProfile";
 
 const App = () => {
   const theme = {
@@ -45,6 +47,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/product" element={<Products />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/admin" element={<AdminProfile />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
         <Footer />

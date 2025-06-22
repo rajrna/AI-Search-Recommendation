@@ -5,7 +5,7 @@ import { Button } from "./styles/Button";
 const ErrorPage = () => {
   return (
     <Wrapper>
-      <div className="container">
+      <div className="container" style={{ marginTop: "11rem" }}>
         <div className="content">
           <img
             src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjhtdW9rNGtwdWs2ZGJsMXl1dHVmaGQ1M3Bmb3puaXhsbmxtdWd6dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lqFHf5fYMSuKcSOJph/giphy.gif"
@@ -51,7 +51,7 @@ const Wrapper = styled.section`
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #f9fbfd, #eef3f8);
+    background: rgb(247, 249, 250);
   }
 
   .content {

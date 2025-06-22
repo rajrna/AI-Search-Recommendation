@@ -200,7 +200,7 @@ const ImageSearch = () => {
               />
               <Button className="search-btn icon-align" type="submit">
                 <FaSearch className="icon" />
-                <h3>Search</h3>
+                Search
               </Button>
             </div>
 
@@ -321,7 +321,7 @@ const Wrapper = styled.section`
     width: 100%;
     padding: 1rem;
     color: #fff;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     border: none;
     border-radius: 8px;
     cursor: pointer;

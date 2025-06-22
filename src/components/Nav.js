@@ -3,9 +3,13 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { FaUser } from "react-icons/fa";
 import { CgClose, CgMenu } from "react-icons/cg";
+import { Button } from "../styles/Button";
 
 const Nav = () => {
   const [menuIcon, setMenuIcon] = useState();
+
+  // Example: Replace with your real auth state
+  const isLoggedIn = false;
 
   return (
     <NavSection>
@@ -38,11 +42,39 @@ const Nav = () => {
               Contact
             </NavLink>
           </li>
-          <li>
-            <NavLink to="/" className="navbar-link home-link">
-              <FaUser className="" />
-            </NavLink>
-          </li>
+
+          {isLoggedIn ? (
+            <li>
+              <NavLink
+                to="/profile"
+                className="navbar-link home-link"
+                onClick={() => setMenuIcon(false)}
+              >
+                <FaUser />
+              </NavLink>
+            </li>
+          ) : (
+            <div className="auth">
+              <li>
+                <NavLink
+                  to="/login"
+                  className=" auth-btn login"
+                  onClick={() => setMenuIcon(false)}
+                >
+                  <Button>login</Button>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/signup"
+                  className="auth-btn signup"
+                  onClick={() => setMenuIcon(false)}
+                >
+                  <Button>signup</Button>
+                </NavLink>
+              </li>
+            </div>
+          )}
         </ul>
 
         {/* two buttons for open and close of menu */}
@@ -214,6 +246,22 @@ const NavSection = styled.nav`
       font-size: 2.2rem;
       padding: 0.8rem 1.4rem;
     }
+  }
+
+  .auth {
+    display: flex;
+    flex-direction: row;
+  }
+  .auth-btn {
+    text-decoration: none;
+
+    margin-right: 10px;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    color: white;
   }
 `;
 export default Nav;

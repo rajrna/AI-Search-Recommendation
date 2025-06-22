@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "../styles/Button";
 
-const HeroSection = ({ myData }) => {
+const HeroSection = ({ myData, onFindClick }) => {
   const { name } = myData;
+
+  const [find, setFindClick] = useState();
+
+  const handleFindClick = () => {
+    setFindClick(!find);
+    if (!find && onFindClick) {
+      onFindClick();
+    }
+  };
 
   return (
     <Wrapper>
@@ -16,9 +25,10 @@ const HeroSection = ({ myData }) => {
             Discover amazing products that match your style and personality.
             Quality and innovation at your fingertips.
           </p>
-          <NavLink to="/search">
-            <Button>Find Now</Button>
-          </NavLink>
+
+          <Button className="find-btn" onClick={handleFindClick}>
+            Find Now
+          </Button>
         </div>
 
         <div className="hero-section-image">
@@ -108,6 +118,16 @@ const Wrapper = styled.section`
         transform: scale(1.05);
       }
     }
+  }
+
+  .find-btn {
+    width: 25%;
+    padding: 1rem;
+    color: #fff;
+    font-size: 1.4rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
   }
 
   @media (max-width: ${({ theme }) => theme.media.mobile}) {

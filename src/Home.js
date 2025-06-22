@@ -17,8 +17,8 @@ const Home = () => {
   };
 
   return (
-    <>
-      <HeroSection myData={data} />
+    <div style={{ marginTop: "11rem" }}>
+      <HeroSection myData={data} onFindClick={scrollToSearch} />
       <div ref={searchRef} id="search-section">
         {" "}
         {/* ref is like a bookmark on a part of the page. */}
@@ -28,7 +28,7 @@ const Home = () => {
       <AboutSection />
       <FloatingSearchButton onSearchClick={scrollToSearch} />{" "}
       {/*onSearchClick is passed into the FloatingSearchButton section as prop, so in there, scrollToSearch will be used/called using onSearchClick.*/}
-    </>
+    </div>
   );
 };
 
