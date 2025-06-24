@@ -4,11 +4,25 @@ import styled from "styled-components";
 const RecommendedSection = () => {
   const [products, setProducts] = useState([]);
 
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     try {
+  //       const response = await fetch("https://fakestoreapi.com/products");
+  //       const data = await response.json();
+  //       setProducts(data);
+  //     } catch (error) {
+  //       console.error("Error fetching products:", error);
+  //     }
+  //   };
+  //   fetchProducts();
+  // }, []);
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("https://fakestoreapi.com/products");
+        const response = await fetch("http://localhost:8080/visuofind");
         const data = await response.json();
+        console.log("Fetched data:", data); // Check what's actually returned
         setProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);
