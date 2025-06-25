@@ -38,6 +38,20 @@ const Favourites = () => {
                   <FaTrashAlt />
                 </button>
               </div>
+
+              //    <div className="favorites-grid">
+              // {favouriteProduct.map((product) => (
+              //   <div className="card" key={product.id}>
+              //     <div className="image-box">
+              //       <img src={product.imageUrl} alt={product.title} />
+              //     </div>
+              //     <div className="card-info">
+              //       <h4>{product.title}</h4>
+              //     </div>
+              //     <button className="remove-btn" title="Remove from favorites">
+              //       <FaTrashAlt />
+              //     </button>
+              //   </div>
             ))}
           </div>
         )}
@@ -73,13 +87,15 @@ const Wrapper = styled.section`
   }
 
   .card {
+    position: relative; /* add this */
+    background-color: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
     display: flex;
     flex-direction: column;
-    height: 280px; /* fixed height */
-    overflow: hidden;
-    background-color: #f9f9f9;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+    position: relative;
+    padding-bottom: 3.5rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
 
@@ -98,7 +114,7 @@ const Wrapper = styled.section`
   .image-box img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: transform 0.3s ease;
 
     &:hover {
@@ -126,17 +142,26 @@ const Wrapper = styled.section`
     margin: 0;
     text-align: center;
   }
+
   .remove-btn {
-    width: 100%;
-    padding: 2px 0;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 30px;
+    height: 30px;
+    padding: 0;
     background-color: #ff4d4f;
     border: none;
+    border-radius: 50%;
     color: white;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    border-top: 1px solid #eee;
-    margin-top: auto; /* 👈 pushes it to the bottom */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    margin-top: 0; /* remove margin-top */
   }
 
   .remove-btn:hover {

@@ -41,25 +41,12 @@ const SearchResultPopup = ({ imageSrc, onReCrop, results = [], onClose }) => {
                   <img src={item.img} alt={item.name} />
                 </div>
                 <div className="info">
-                  <div className="left-section">
-                    <h4>{item.name}</h4>
-                    <a
-                      href={item.url}
-                      className="product-url"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {item.url}
-                    </a>
-                  </div>
-                  <a
-                    href={item.url}
-                    className="visit-btn"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Visit
-                  </a>
+                  <h4>{item.name}</h4>
+                  <p className="description">{item.description}</p>
+                </div>
+                <div className="bottom-info">
+                  <span className="category">{item.category}</span>
+                  <span className="score">⭐ {item.score}</span>
                 </div>
               </ProductCard>
             ))}
@@ -78,17 +65,16 @@ const Overlay = styled.div`
   left: 0;
   width: 100%;
   z-index: 999;
-
-  backdrop-filter: blur(8px); /* Blur effect */
-  -webkit-backdrop-filter: blur(8px); /* For Safari */
+  backdrop-filter: blur(8px);
 `;
 
 const Popup = styled.div`
   width: 100%;
   padding: 1.5rem 5rem;
+  background-color: #ffffff;
   animation: slideUp 0.5s ease;
-  overflow: hidden;
   box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 
   .popup-header {
     display: flex;
@@ -108,13 +94,13 @@ const Popup = styled.div`
       .close-btn {
         background: transparent;
         border: none;
-        font-size: 1.6rem;
+        font-size: 1.8rem;
         cursor: pointer;
         color: #333;
         transition: color 0.3s ease, transform 0.2s ease;
 
         &:hover {
-          color: #007bff; /* or any accent color that fits your theme */
+          color: #007bff;
           transform: scale(1.1);
         }
       }
@@ -130,32 +116,44 @@ const Popup = styled.div`
     }
   }
 `;
-const ProductGrid = styled.div`
-  margin-top: 2rem;
-  display: grid;
-  grid-template-columns: repeat(
-    3,
-    1fr
-  ); // You can change to 4 if you want 4 per row
-  gap: 6rem;
 
-  @media (max-width: 992px) {
+const InnerContent = styled.div`
+  max-height: ${({ collapsed }) => (collapsed ? "0px" : "400px")};
+  overflow-y: ${({ collapsed }) => (collapsed ? "hidden" : "auto")};
+  transition: max-height 0.4s ease;
+  margin-top: ${({ collapsed }) => (collapsed ? "0" : "2rem")};
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+`;
+
+const ProductGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 3rem;
+
+  @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (max-width: 576px) {
+  @media (max-width: 480px) {
     grid-template-columns: 1fr;
   }
 `;
+
 const ProductCard = styled.div`
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
   display: flex;
   flex-direction: column;
+  position: relative;
+  padding-bottom: 3.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
 
   &:hover {
     transform: translateY(-8px);
@@ -164,13 +162,13 @@ const ProductCard = styled.div`
 
   .image-box {
     width: 100%;
-    height: 220px;
+    height: 200px;
     overflow: hidden;
 
     img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       transition: transform 0.3s ease;
     }
 
@@ -180,65 +178,47 @@ const ProductCard = styled.div`
   }
 
   .info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 1rem;
-
-    .left-section {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start; /* Add this */
-    }
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
 
     h4 {
-      font-size: 1.7rem;
-      color: #333;
-      margin: 0 0 0.4rem 0;
-    }
-
-    .product-url {
-      color: #007bff;
-      text-decoration: underline;
-      font-size: 1.2rem;
-      transition: color 0.3s ease;
-
-      &:hover {
-        color: #0056b3;
-      }
-    }
-
-    .visit-btn {
-      text-decoration: none;
-      background-color: #2c3741;
-      color: white;
-      padding: 0.9rem 1.4rem;
-      border-radius: 10px;
       font-size: 1.4rem;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
+      margin-bottom: 0.5rem;
+      color: #222;
+    }
 
-      &:hover {
-        background-color: #0056b3;
-      }
+    .description {
+      font-size: 1rem;
+      max-height: 60px;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+      color: #444;
     }
   }
-`;
 
-const InnerContent = styled.div`
-  max-height: ${({ collapsed }) => (collapsed ? "0px" : "380px")};
-  overflow-y: ${({ collapsed }) => (collapsed ? "hidden" : "auto")};
-  transition: max-height 0.4s ease;
-  margin-top: ${({ collapsed }) => (collapsed ? "0" : "1.5rem")};
+  .bottom-info {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
 
-  /* Hide scrollbar for Webkit browsers */
-  &::-webkit-scrollbar {
-    display: none;
+    .category {
+      background: #f0f0f0;
+      padding: 0.4rem 0.8rem;
+      border-radius: 5px;
+      color: #333;
+    }
+
+    .score {
+      color: #007bff;
+      font-weight: bold;
+    }
   }
-
-  /* Hide scrollbar for Firefox */
-  scrollbar-width: none;
-
-  /* Hide scrollbar for IE and Edge */
-  -ms-overflow-style: none;
 `;

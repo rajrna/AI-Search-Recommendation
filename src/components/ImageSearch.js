@@ -72,26 +72,46 @@ const ImageSearch = () => {
         name: "Alien Cat Meme",
         img: "https://i.kym-cdn.com/entries/icons/mobile/000/041/399/cover1.jpg",
         url: "https://knowyourmeme.com/memes/alien-cat",
+        description:
+          "A meme featuring a cat with an alien-like appearance. It's often used to express confusion or absurdity.",
+        category: "Animal",
+        score: 8.5,
       },
       {
         name: "Pop Cat Meme",
         img: "https://i.kym-cdn.com/entries/icons/mobile/000/035/692/cover1.jpg",
         url: "https://knowyourmeme.com/memes/pop-meme",
+        description:
+          "Pop Cat is a reaction meme based on a cat opening and closing its mouth with a popping sound.",
+        category: "Reaction",
+        score: 9.0,
       },
       {
         name: "Doge",
         img: "https://i.kym-cdn.com/entries/icons/mobile/000/013/564/doge.jpg",
         url: "https://knowyourmeme.com/memes/doge",
+        description:
+          "Doge is an internet meme that features a Shiba Inu dog with multicolored text in Comic Sans font.",
+        category: "Classic",
+        score: 9.8,
       },
       {
         name: "Cheesed to Meet you",
         img: "https://i.kym-cdn.com/entries/icons/mobile/000/035/175/cheesed-.jpg",
         url: "https://knowyourmeme.com/memes/cheesed-to-meet-you",
+        description:
+          "A meme used when introducing oneself with a pun involving cheese and politeness.",
+        category: "Pun",
+        score: 7.2,
       },
       {
         name: "An Idiot Sandwich",
         img: "https://i.kym-cdn.com/entries/icons/mobile/000/020/115/idiot_sandwich.jpg",
         url: "https://knowyourmeme.com/memes/an-idiot-sandwich",
+        description:
+          "Originating from a Gordon Ramsay skit, it's used to express a humorous self-insult or critique.",
+        category: "TV Meme",
+        score: 8.9,
       },
     ]);
     setShowPopup(true);
