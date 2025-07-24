@@ -2,37 +2,23 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Recommendations = () => {
-  const recommendedItems = [
-    {
-      id: 1,
-      name: "Red Hoodie",
-      image: "https://via.placeholder.com/200",
-    },
-    {
-      id: 2,
-      name: "Leather Jacket",
-      image: "https://via.placeholder.com/200",
-    },
-    {
-      id: 3,
-      name: "Blue Denim",
-      image: "https://via.placeholder.com/200",
-    },
-    {
-      id: 4,
-      name: "White Sneakers",
-      image: "https://via.placeholder.com/200",
-    },
-  ];
-
   const [recommendedProduct, setRecommendedProduct] = useState([]);
+  const [sortedProducts, setSortedProducts] = useState([]);
+  const [sortOption, setSortOption] = useState("relevance");
 
+  // Fetch products once on mount
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await fetch("https://fakestoreapi.com/products");
         const data = await response.json();
-        setRecommendedProduct(data);
+        const mapped = data.map((product) => ({
+          ...product,
+          category: product.category || "General",
+          score: (Math.random() * 5).toFixed(1), // Dummy score for demo
+        }));
+        setRecommendedProduct(mapped);
+        setSortedProducts(mapped); // Initialize sorted list
       } catch (error) {
         console.error("Fetching Log Error", error);
       }
@@ -40,97 +26,111 @@ const Recommendations = () => {
     fetchProducts();
   }, []);
 
-  const [sortOption, setSortOption] = useState("relevance");
+  // Sort products whenever recommendedProduct or sortOption changes
+  useEffect(() => {
+    if (!recommendedProduct.length) return;
+
+    let sorted = [...recommendedProduct];
+
+    switch (sortOption) {
+      case "newest":
+        // Sort by descending id (newest first)
+        sorted.sort((a, b) => b.id - a.id);
+        break;
+      case "popular":
+        // Sort by descending score (highest score first)
+        sorted.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
+        break;
+      case "name":
+        // Sort by product title alphabetically
+        sorted.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case "relevance":
+      default:
+        // No sorting, keep original order
+        break;
+    }
+
+    setSortedProducts(sorted);
+  }, [recommendedProduct, sortOption]);
 
   const handleSortChange = (e) => {
     setSortOption(e.target.value);
-    // Optional: apply sorting logic on recommendedItems
   };
-
-  // useEffect(() => {
-  //   // Example logic for sorting (simple version)
-  //   const sorted = [...recommendedItems].sort((a, b) => {
-  //     if (sortOption === "name") return a.name.localeCompare(b.name);
-  //     return 0; // Add other cases as needed
-  //   });
-
-  //   setRecommendedProduct(sorted);
-  // }, [sortOption]);
 
   return (
     <Wrapper>
       <div className="recommendation-panel">
-        <h2>Recommended For You</h2>
-        {recommendedItems.length === 0 ? (
-          <p>No recommendations available.</p>
-        ) : (
-          <div>
-            {" "}
-            <div className="filter-bar">
-              <label htmlFor="sort">Sort by:</label>
-              <select id="sort" value={sortOption} onChange={handleSortChange}>
-                <option value="relevance">Relevance</option>
-                <option value="newest">Newest</option>
-                <option value="popular">Most Popular</option>
-                <option value="name">Name A-Z</option>
-              </select>
+        <h2>Recommended Products</h2>
+        <div className="filter-bar">
+          <label htmlFor="sort">Sort by:</label>
+          <select id="sort" value={sortOption} onChange={handleSortChange}>
+            <option value="relevance">Relevance</option>
+            <option value="newest">Newest</option>
+            <option value="popular">Most Popular</option>
+            <option value="name">Name A-Z</option>
+          </select>
+        </div>
+
+        <div className="recommendation-grid">
+          {sortedProducts.map((product) => (
+            <div className="card" key={product.id}>
+              <div className="image-box">
+                <img src={product.image} alt={product.title} />
+              </div>
+              <div className="info">
+                <h4>{product.title}</h4>
+                <p className="description">{product.description}</p>
+              </div>
+              <div className="bottom-info">
+                <span className="category">{product.category}</span>
+                <span className="score">⭐ {product.score}</span>
+              </div>
             </div>
-            <div className="recommendation-grid">
-              {recommendedItems.map((item) => (
-                <div className="card" key={item.id}>
-                  <div className="image-box">
-                    <img src={item.image} alt={item.name} />
-                  </div>
-                  <div className="info">
-                    <h4>{item.name}</h4>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+          ))}
+        </div>
       </div>
 
-      <div className="recommendation-panel">
-        <h2>Recommended For You</h2>
-        {recommendedProduct.length === 0 ? (
-          <p>No recommendations available.</p>
-        ) : (
-          <div>
-            {" "}
-            <div className="filter-bar">
-              <label htmlFor="sort">Sort by:</label>
-              <select id="sort" value={sortOption} onChange={handleSortChange}>
-                <option value="relevance">Relevance</option>
-                <option value="newest">Newest</option>
-                <option value="popular">Most Popular</option>
-                <option value="name">Name A-Z</option>
-              </select>
+      {/* <div className="recommendation-panel">
+        <h2>Recommended Products</h2>
+        <div className="filter-bar">
+          <label htmlFor="sort">Sort by:</label>
+          <select id="sort" value={sortOption} onChange={handleSortChange}>
+            <option value="relevance">Relevance</option>
+            <option value="newest">Newest</option>
+            <option value="popular">Most Popular</option>
+            <option value="name">Name A-Z</option>
+          </select>
+        </div>
+
+        <div className="recommendation-grid">
+          {recommendedProduct.map((product) => (
+            <div className="card" key={product.id}>
+              <div className="image-box">
+                <img src={product.imageUrl} alt={product.title} />
+              </div>
+              <div className="info">
+                <h4>{product.title}</h4>
+                <p className="description">{product.description}</p>
+              </div>
+              <div className="bottom-info">
+                <span className="category">{product.category}</span>
+                <span className="score">⭐ {product.score}</span>
+              </div>
             </div>
-            <div className="recommendation-grid">
-              {recommendedProduct.map((product) => (
-                <div className="card" key={product.id}>
-                  <div className="image-box">
-                    <img src={product.image} alt={product.title} />
-                  </div>
-                  <div className="info">
-                    <h4>{product.title}</h4>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+          ))}
+        </div>
+      </div> */}
     </Wrapper>
   );
 };
+
+export default Recommendations;
 
 const Wrapper = styled.section`
   .recommendation-panel {
     padding: 30px;
     width: 100%;
-
     font-family: "Segoe UI", sans-serif;
   }
 
@@ -142,15 +142,19 @@ const Wrapper = styled.section`
 
   .recommendation-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
   }
 
   .card {
-    background-color: #f9f9f9;
+    background-color: #fff;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-bottom: 3.5rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
 
@@ -158,31 +162,67 @@ const Wrapper = styled.section`
       transform: translateY(-8px);
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
     }
-  }
 
-  .image-box {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-
-    img {
+    .image-box {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
+      height: 200px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover img {
+        transform: scale(1.05);
+      }
     }
 
-    &:hover img {
-      transform: scale(1.05);
+    .info {
+      padding: 1rem;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+
+      h4 {
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+        color: #222;
+      }
+
+      .description {
+        font-size: 1rem;
+        max-height: 60px;
+        overflow-y: auto;
+        margin-bottom: 1rem;
+        color: #444;
+      }
     }
-  }
 
-  .info {
-    padding: 1rem;
+    .bottom-info {
+      position: absolute;
+      bottom: 1rem;
+      left: 1rem;
+      right: 1rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.1rem;
 
-    h4 {
-      font-size: 1.2rem;
-      color: #333;
+      .category {
+        background: #f0f0f0;
+        padding: 0.4rem 0.8rem;
+        border-radius: 5px;
+        color: #333;
+      }
+
+      .score {
+        color: #007bff;
+        font-weight: bold;
+      }
     }
   }
 
@@ -206,5 +246,3 @@ const Wrapper = styled.section`
     font-size: 14px;
   }
 `;
-
-export default Recommendations;

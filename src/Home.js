@@ -25,7 +25,7 @@ const Home = () => {
         <ImageSearch />
       </div>
       <RecommendedSection />
-      <AboutSection />
+      <AboutSection id="about" />
       <FloatingSearchButton onSearchClick={scrollToSearch} />{" "}
       {/*onSearchClick is passed into the FloatingSearchButton section as prop, so in there, scrollToSearch will be used/called using onSearchClick.*/}
     </div>

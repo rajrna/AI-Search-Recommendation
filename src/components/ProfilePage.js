@@ -16,6 +16,8 @@ import Recommendations from "./profile_content/Recommendations";
 import Notifications from "./profile_content/Notifications";
 import HelpSupport from "./profile_content/HelpSupport";
 import Favourites from "./profile_content/Favourites";
+import RecommendedSection from "./RecommendedSection";
+
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("profile");
 
@@ -88,6 +90,7 @@ const ProfilePage = () => {
         <p>This is your profile panel where you can update your details.</p> */}
         {activeTab === "profile" && <ProfileSettings />}
         {activeTab === "history" && <SearchHistory />}
+        {/* {activeTab === "recommendation" && <RecommendedSection />} */}
         {activeTab === "recommendation" && <Recommendations />}
         {activeTab === "favourite" && <Favourites />}
         {activeTab === "notification" && <Notifications />}

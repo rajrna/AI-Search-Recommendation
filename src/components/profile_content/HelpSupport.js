@@ -102,9 +102,7 @@ const Wrapper = styled.section`
   .help-support-panel {
     padding: 30px;
     width: 100%;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+
     font-family: "Segoe UI", sans-serif;
   }
 

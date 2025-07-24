@@ -1,6 +1,11 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Home from "./Home";
 import Products from "./Products";
 import Contact from "./Contact";
@@ -11,6 +16,8 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ProfilePage from "./components/ProfilePage";
 import AdminProfile from "./components/AdminProfile";
+import Signup from "./Signup";
+import Login from "./Login";
 
 const App = () => {
   const theme = {
@@ -20,7 +27,6 @@ const App = () => {
       white: "#fff",
       black: " #212529",
       helper: "#8490ff",
-
       bg: "#f2f2f2",
       footer_bg: "rgb(39, 51, 51)",
       btn: "rgb(44, 55, 61)",
@@ -42,19 +48,60 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Router>
         <GlobalStyle />
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/product" element={<Products />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/admin" element={<AdminProfile />} />
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
-        <Footer />
+        <Layout />
       </Router>
     </ThemeProvider>
   );
 };
+
+const Layout = () => {
+  const location = useLocation();
+
+  // Hide Header and Footer on login and signup pages
+  const hideNavFooter =
+    location.pathname === "/login" || location.pathname === "/signup";
+
+  return (
+    <>
+      {!hideNavFooter && <Header />}
+      <main>
+        {hideNavFooter ? (
+          <CenteredWrapper>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+            </Routes>
+          </CenteredWrapper>
+        ) : (
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/product" element={<Products />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/admin" element={<AdminProfile />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        )}
+      </main>
+      {!hideNavFooter && <Footer />}
+    </>
+  );
+};
+
+// Center content vertically and horizontally
+const CenteredWrapper = ({ children }) => (
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh", // Full viewport height
+      padding: "1rem",
+      backgroundColor: "#f2f2f2", // optional background for form pages
+    }}
+  >
+    {children}
+  </div>
+);
 
 export default App;
