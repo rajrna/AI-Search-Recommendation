@@ -7,11 +7,13 @@ import {
   FaUsers,
   FaEnvelope,
   FaCogs,
+  FaTshirt,
 } from "react-icons/fa";
 import Dashboard from "./admins_profile/Dashboard";
 import ManageUser from "./admins_profile/ManageUser";
 import Message from "./admins_profile/Message";
 import AdminSettings from "./admins_profile/AdminSettings";
+import AddProduct from "./admins_profile/AddProduct";
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -40,6 +42,12 @@ const ProfilePage = () => {
               onClick={() => handleTabChange("dashboard")}
             >
               <FaTachometerAlt /> Dashboard
+            </li>
+            <li
+              className={activeTab === "add-product" ? "active" : ""}
+              onClick={() => handleTabChange("add-product")}
+            >
+              <FaTshirt /> Add Product
             </li>
             <li
               className={activeTab === "mg-user" ? "active" : ""}
@@ -72,6 +80,7 @@ const ProfilePage = () => {
         {/* <h2>Welcome, John</h2>
         <p>This is your profile panel where you can update your details.</p> */}
         {activeTab === "dashboard" && <Dashboard />}
+        {activeTab === "add-product" && <AddProduct />}
         {activeTab === "mg-user" && <ManageUser />}
         {activeTab === "message" && <Message />}
         {activeTab === "ad-settings" && <AdminSettings />}
